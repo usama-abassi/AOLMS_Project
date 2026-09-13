@@ -1,15 +1,32 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 
 export interface LayoutProps {
   navItems: Array<{ label: string; path: string; icon: React.ReactNode }>;
   onLogout: () => Promise<void>;
+  currentUser?: {
+    name: string;
+    avatar?: string;
+  } | null;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ navItems, onLogout }) => {
+export const Layout: React.FC<LayoutProps> = ({ navItems, onLogout, currentUser }) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const location = useLocation();
+
+  // Determine page title based on current route
+  const getPageTitle = () => {
+    const path = location.pathname.split('/').pop();
+    const titles: Record<string, string> = {
+      dashboard: 'Dashboard',
+      profiles: 'Users',
+      projects: 'Projects',
+      me: 'My Profile',
+    };
+    return titles[path] || 'Dashboard';
+  };
 
   const toggleSidebar = () => {
     setIsSidebarCollapsed(!isSidebarCollapsed);
@@ -23,8 +40,13 @@ export const Layout: React.FC<LayoutProps> = ({ navItems, onLogout }) => {
         navItems={navItems}
         onLogout={onLogout}
       />
-      <div className="flex-1 flex flex-col">
-        <Header onToggleSidebar={toggleSidebar} />
+      <div className="flex-1 flex flex-col min-w-0">
+        <Header
+          onToggleSidebar={toggleSidebar}
+          title={getPageTitle()}
+          currentUser={currentUser}
+          onLogout={onLogout}
+        />
         <main className="flex-1 p-6 overflow-y-auto">
           <Outlet />
         </main>

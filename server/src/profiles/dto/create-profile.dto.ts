@@ -7,8 +7,9 @@ export class CreateProfileDto {
   @IsString()
   full_name: string;
 
+  @IsOptional()
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsEnum(['admin', 'controller', 'technician'])
   role: 'admin' | 'controller' | 'technician';

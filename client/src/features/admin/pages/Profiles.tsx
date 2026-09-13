@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '../../../../main';
-import { Table } from '../../../../components/Table';
-import { Button } from '../../../../components/Button';
-import { Input } from '../../../../components/Input';
-import { Select } from '../../../../components/Select';
-import { Modal } from '../../../../components/Modal';
-import { Card } from '../../../../components/Card';
+import { supabase } from '../../../main';
+import { Table } from '../../../components/Table';
+import { Button } from '../../../components/Button';
+import { Input } from '../../../components/Input';
+import { Select } from '../../../components/Select';
+import { Modal } from '../../../components/Modal';
+import { Card } from '../../../components/Card';
 
 interface Profile {
   id: string;
@@ -14,7 +14,7 @@ interface Profile {
   email: string;
   role: string;
   employee_code: string;
-  status: string;
+  is_active: boolean;
   created_at: string;
 }
 
@@ -36,7 +36,7 @@ const Profiles: React.FC = () => {
         .select('*')
         .order('created_at', { ascending: false });
       if (error) throw error;
-      return data;
+      return data as Profile[];
     },
   });
 
@@ -92,7 +92,7 @@ const Profiles: React.FC = () => {
       email: '',
       role: 'technician',
       employee_code: '',
-      status: 'active',
+      is_active: true,
       created_at: new Date().toISOString(),
     });
     setIsEditMode(false);
@@ -107,13 +107,18 @@ const Profiles: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setSelectedProfile(prev => prev ? { ...prev, [name]: value } : null);
+    setSelectedProfile(prev => prev ? { ...prev, [name]: name === 'is_active' ? value === 'true' : value } : null);
   };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold text-[var(--color-neutral-900)] dark:text-[var(--color-neutral-50)]">User Management</h1>
+        <div>
+          <h1 className="text-h2 font-semibold text-neutral-900 dark:text-neutral-50">User Management</h1>
+          <p className="text-body-sm text-neutral-500 dark:text-neutral-400 mt-1">
+            {profiles?.length || 0} users registered
+          </p>
+        </div>
         <Button variant="primary" onClick={handleCreateProfile}>
           Add User
         </Button>
@@ -148,12 +153,13 @@ const Profiles: React.FC = () => {
             { key: 'email', label: 'Email' },
             { key: 'role', label: 'Role' },
             { key: 'employee_code', label: 'Employee Code' },
-            { key: 'status', label: 'Status' },
+            { key: 'is_active', label: 'Status' },
             { key: 'created_at', label: 'Created At' },
             { key: 'actions', label: 'Actions' },
           ]}
           data={filteredProfiles.map(profile => ({
             ...profile,
+            is_active: profile.is_active ? 'Active' : 'Inactive',
             created_at: new Date(profile.created_at).toLocaleString(),
             actions: (
               <Button
@@ -210,12 +216,12 @@ const Profiles: React.FC = () => {
             />
             <Select
               label="Status"
-              name="status"
-              value={selectedProfile.status}
+              name="is_active"
+              value={selectedProfile.is_active ? 'true' : 'false'}
               onChange={handleInputChange}
               options={[
-                { value: 'active', label: 'Active' },
-                { value: 'inactive', label: 'Inactive' },
+                { value: 'true', label: 'Active' },
+                { value: 'false', label: 'Inactive' },
               ]}
             />
           </div>

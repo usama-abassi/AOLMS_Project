@@ -1,4 +1,4 @@
-import { IsUUID, IsNotEmpty, IsEnum, IsOptional, IsString, IsNumber, MaxLength } from 'class-validator';
+import { IsUUID, IsEnum, IsOptional, IsString, IsNumber, MaxLength } from 'class-validator';
 import { DeliveryStatus } from '../delivery-submissions.entity';
 
 export class CreateDeliverySubmissionDto {
