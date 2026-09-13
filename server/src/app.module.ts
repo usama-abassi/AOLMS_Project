@@ -4,6 +4,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { TypeOrmConfigService } from './typeorm.config.js';
+import { AuthModule } from './auth/auth.module';
+import { ProfilesModule } from './profiles/profiles.module';
+import { ProjectsModule } from './projects/projects.module';
+import { OrdersModule } from './orders/orders.module';
+import { OrderAssignmentsModule } from './order-assignments/order-assignments.module';
+import { DeliverySubmissionsModule } from './delivery-submissions/delivery-submissions.module';
+import { AssuranceTicketsModule } from './assurance-tickets/assurance-tickets.module';
+import { AssuranceSubmissionsModule } from './assurance-submissions/assurance-submissions.module';
+import { OntInventoryModule } from './ont-inventory/ont-inventory.module';
+import { CpeInventoryModule } from './cpe-inventory/cpe-inventory.module';
+import { CpeReplacementsModule } from './cpe-replacements/cpe-replacements.module';
+import { AttachmentsModule } from './attachments/attachments.module';
+import { AuditLogsModule } from './audit-logs/audit-logs.module';
+import { SupabaseModule } from './supabase/supabase.module';
 
 @Module({
   imports: [
@@ -15,6 +29,20 @@ import { TypeOrmConfigService } from './typeorm.config.js';
       useClass: TypeOrmConfigService,
       inject: [TypeOrmConfigService],
     }),
+    AuthModule,
+    ProfilesModule,
+    ProjectsModule,
+    OrdersModule,
+    OrderAssignmentsModule,
+    DeliverySubmissionsModule,
+    AssuranceTicketsModule,
+    AssuranceSubmissionsModule,
+    OntInventoryModule,
+    CpeInventoryModule,
+    CpeReplacementsModule,
+    AttachmentsModule,
+    AuditLogsModule,
+    SupabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService, TypeOrmConfigService],

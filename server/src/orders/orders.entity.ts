@@ -7,7 +7,7 @@ export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Project, (project) => project.id)
+  @ManyToOne(() => Project)
   project_id: string;
 
   @Column()
@@ -19,7 +19,7 @@ export class Order {
   @Column()
   exchange: string;
 
-  @Column({ unique: true })
+  @Column()
   order_number: string;
 
   @Column()
@@ -82,10 +82,10 @@ export class Order {
   @Column()
   item_category: string;
 
-  @ManyToOne(() => Profile, (profile) => profile.id)
+  @ManyToOne(() => Profile)
   technician_id: string;
 
-  @ManyToOne(() => Profile, (profile) => profile.id)
+  @ManyToOne(() => Profile)
   created_by: string;
 
   @CreateDateColumn()

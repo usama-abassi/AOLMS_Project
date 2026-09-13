@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, Index } from 'typeorm';
 import { Order } from '../orders/orders.entity';
 import { Profile } from '../profiles/profiles.entity';
 
@@ -9,17 +9,18 @@ export enum DeliveryStatus {
 }
 
 @Entity({ name: 'delivery_submissions' })
+@Index(['order_id'], { unique: true })
 export class DeliverySubmission {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Order, (order) => order.id)
+  @ManyToOne(() => Order)
   order_id: string;
 
-  @ManyToOne(() => Profile, (profile) => profile.id)
+  @ManyToOne(() => Profile)
   technician_id: string;
 
-  @Column({ type: 'enum', enum: DeliveryStatus })
+  @Column({ type: 'enum', enum: DeliveryStatus, default: DeliveryStatus.Draft })
   status: DeliveryStatus;
 
   @Column()
@@ -31,8 +32,8 @@ export class DeliverySubmission {
   @Column({ nullable: true })
   edit_deadline: Date;
 
-  @Column({ default: false })
-  actioned: boolean;
+  @Column()
+  actioned: string;
 
   @Column({ nullable: true })
   sub_root_cause: string;

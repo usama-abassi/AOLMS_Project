@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity({ name: 'profiles' })
 export class Profile {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn({ type: 'uuid', default: () => 'gen_random_uuid()' })
   id: string;
 
   @Column({ unique: true })
@@ -11,7 +11,7 @@ export class Profile {
   @Column()
   full_name: string;
 
-  @Column({ unique: true })
+  @Column()
   email: string;
 
   @Column({ type: 'enum', enum: ['admin', 'controller', 'technician'] })

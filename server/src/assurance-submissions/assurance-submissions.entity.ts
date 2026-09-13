@@ -13,13 +13,13 @@ export class AssuranceSubmission {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => AssuranceTicket, (ticket) => ticket.id)
+  @ManyToOne(() => AssuranceTicket)
   ticket_id: string;
 
-  @ManyToOne(() => Profile, (profile) => profile.id)
+  @ManyToOne(() => Profile)
   technician_id: string;
 
-  @Column({ type: 'enum', enum: AssuranceSubmissionStatus })
+  @Column({ type: 'enum', enum: AssuranceSubmissionStatus, default: AssuranceSubmissionStatus.Draft })
   status: AssuranceSubmissionStatus;
 
   @Column()
@@ -65,10 +65,10 @@ export class AssuranceSubmission {
   saas_type: string;
 
   @Column({ nullable: true })
-  box_number: number;
+  box_number: string;
 
   @Column({ nullable: true })
-  replacement: boolean;
+  replacement: string;
 
   @Column({ nullable: true })
   saas_non_saas: string;

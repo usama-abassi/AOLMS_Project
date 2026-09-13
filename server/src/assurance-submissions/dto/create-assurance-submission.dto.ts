@@ -77,12 +77,14 @@ export class CreateAssuranceSubmissionDto {
   saas_type?: string;
 
   @IsOptional()
-  @IsNumber()
-  box_number?: number;
+  @IsString()
+  @MaxLength(255)
+  box_number?: string;
 
   @IsOptional()
-  @IsBoolean()
-  replacement?: boolean;
+  @IsString()
+  @MaxLength(255)
+  replacement?: string;
 
   @IsOptional()
   @IsString()

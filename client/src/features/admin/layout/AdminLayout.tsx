@@ -1,7 +1,9 @@
 import React from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Layout } from '../../../components/layout/Layout';
+import { useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { supabase } from '../../../main';
-import { Button } from '../../../components/Button';
+import { LayoutDashboard, Users, FolderKanban, Settings } from 'lucide-react';
 
 const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
@@ -15,50 +17,17 @@ const AdminLayout: React.FC = () => {
     navigate('/login');
   };
 
+  const navItems = [
+    { label: 'Dashboard', path: '/admin/dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { label: 'Users', path: '/admin/profiles', icon: <Users className="w-5 h-5" /> },
+    { label: 'Projects', path: '/admin/projects', icon: <FolderKanban className="w-5 h-5" /> },
+    { label: 'Settings', path: '/admin/settings', icon: <Settings className="w-5 h-5" /> },
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="bg-indigo-600 text-white shadow">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">AOLMS Admin</h1>
-          <Button variant="outline" onClick={handleLogout}>
-            Logout
-          </Button>
-        </div>
-      </header>
-
-      {/* Main content */}
-      <div className="flex flex-1">
-        {/* Sidebar */}
-        <div className="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform md:relative md:translate-x-0 transition duration-200 ease-in-out">
-          <nav>
-            <Link
-              to="/admin/dashboard"
-              className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/admin/profiles"
-              className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
-            >
-              Profiles
-            </Link>
-            <Link
-              to="/admin/projects"
-              className="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700"
-            >
-              Projects
-            </Link>
-          </nav>
-        </div>
-
-        {/* Main content area */}
-        <main className="flex-1 p-6 overflow-y-auto">
-          <Outlet />
-        </main>
-      </div>
-    </div>
+    <Layout navItems={navItems} onLogout={handleLogout}>
+      <Outlet />
+    </Layout>
   );
 };
 

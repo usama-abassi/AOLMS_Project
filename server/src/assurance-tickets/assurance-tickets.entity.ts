@@ -7,7 +7,7 @@ export class AssuranceTicket {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Project, (project) => project.id)
+  @ManyToOne(() => Project)
   project_id: string;
 
   @Column({ unique: true })
@@ -19,7 +19,7 @@ export class AssuranceTicket {
   @Column()
   team: string;
 
-  @ManyToOne(() => Profile, (profile) => profile.id)
+  @ManyToOne(() => Profile)
   controller_id: string;
 
   @Column()
@@ -82,7 +82,7 @@ export class AssuranceTicket {
   @Column()
   status: string; // e.g., open, in_progress, resolved, closed
 
-  @ManyToOne(() => Profile, (profile) => profile.id)
+  @ManyToOne(() => Profile)
   technician_id: string;
 
   @CreateDateColumn()

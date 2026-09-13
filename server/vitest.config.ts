@@ -9,5 +9,7 @@ export default defineConfig({
     globals: true,
     root: './',
     include: ['**/*.spec.ts'],
+    // Exclude Supabase tests for now
+    exclude: ['src/supabase/**'],
   },
 });

@@ -22,7 +22,9 @@ export class CreateDeliverySubmissionDto {
   edit_deadline?: Date;
 
   @IsOptional()
-  actioned?: boolean;
+  @IsString()
+  @MaxLength(255)
+  actioned?: string;
 
   @IsOptional()
   @IsString()

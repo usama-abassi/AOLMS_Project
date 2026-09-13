@@ -3,8 +3,8 @@ import { Order } from '../orders/orders.entity';
 import { Profile } from '../profiles/profiles.entity';
 
 export enum AssignmentStatus {
-  Assigned = 'assigned',
-  InProgress = 'in_progress',
+  Pending = 'pending',
+  Active = 'active',
   Completed = 'completed',
   Cancelled = 'cancelled',
 }
@@ -14,19 +14,19 @@ export class OrderAssignment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Order, (order) => order.id)
+  @ManyToOne(() => Order)
   order_id: string;
 
-  @ManyToOne(() => Profile, (profile) => profile.id)
+  @ManyToOne(() => Profile)
   technician_id: string;
 
-  @ManyToOne(() => Profile, (profile) => profile.id)
+  @ManyToOne(() => Profile)
   assigned_by: string;
 
-  @Column({ type: 'enum', enum: AssignmentStatus })
+  @Column({ type: 'enum', enum: AssignmentStatus, default: AssignmentStatus.Pending })
   assignment_status: AssignmentStatus;
 
-  @Column({ nullable: true })
+  @Column()
   assigned_at: Date;
 
   @Column({ nullable: true })
